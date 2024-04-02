@@ -16,7 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get -yqq --mirror=http://archive.ubuntu.com/ubuntu install libpq-dev build-essential libcurl4-openssl-dev
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
           gem install bundler
           bundle install --jobs 4 --retry 3
 
