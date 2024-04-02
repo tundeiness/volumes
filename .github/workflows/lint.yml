@@ -16,8 +16,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
           gem install bundler
           bundle install --jobs 4 --retry 3
+
+      - name: Update package lists
+        run: sudo apt-get update
 
       - name: Run RuboCop
         run: bundle exec rubocop
