@@ -16,7 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get -yqq install libpq-dev build-essential libcurl4-openssl-dev
+          sudo dpkg -i /path/to/libcurl4-openssl-dev_7.81.0-1ubuntu1.15_amd64.deb
           gem install bundler
           bundle install --jobs 4 --retry 3
 
