@@ -15,10 +15,7 @@ jobs:
           ruby-version: 3.1.0
 
       - name: Install dependencies
-        run: |
-          sudo dpkg -i /path/to/libcurl4-openssl-dev_7.81.0-1ubuntu1.15_amd64.deb
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+        run: bundle install
 
       - name: Update package lists
         run: sudo apt-get update
