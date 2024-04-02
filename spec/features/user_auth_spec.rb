@@ -5,8 +5,14 @@ RSpec.feature 'UserAuths', type: :feature do
 
   scenario 'user signs up' do
     visit new_user_registration_path
-    # Fill in the sign-up form and submit
-    # Add assertions to verify a new user was created
+
+    fill_in 'Email', with: 'test@example.com'
+    fill_in 'Password', with: 'password'
+    fill_in 'Password confirmation', with: 'password'
+    click_button 'Sign up'
+
+    expect(page).to have_content('Welcome! You have signed up successfully.')
+    expect(User.count).to eq(1)
   end
 
   scenario 'user signs in' do
