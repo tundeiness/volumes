@@ -6,9 +6,9 @@ RSpec.feature 'UserAuths', type: :feature do
   scenario 'user signs up' do
     visit new_user_registration_path
 
-    fill_in 'user_email', with: 'test@example.com'
-    fill_in 'user_password', with: 'password'
-    fill_in 'user_password_confirmation', with: 'password'
+    fill_in 'Email', with: 'test@example.com'
+    fill_in 'Password', with: 'password'
+    fill_in 'Password confirmation', with: 'password'
     click_button 'Sign up'
 
     expect(page).to have_content('Welcome! You have signed up successfully.')
