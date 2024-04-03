@@ -18,7 +18,7 @@ RSpec.feature 'UserAuths', type: :feature do
   scenario 'user signs in' do
     # create user using FactortBot
     user = create(:user)
-
+    # save_and_open_page
     visit new_user_session_path
 
     fill_in 'user[email]', with: user.email
@@ -40,20 +40,9 @@ RSpec.feature 'UserAuths', type: :feature do
 
     expect(page).to have_content('Signed in successfully.')
 
-    # puts "Current URL: #{page.current_url}"
-    # puts 'Page HTML:'
-    # puts page.html
-
     click_link('Sign out')
-    # click_link(href: destroy_user_session_path)
-    # click_link("Sign out", href: destroy_user_session_path(scope: :user))
-
-    # puts "Current URL: #{page.current_url}"
-    # puts 'Page HTML:'
-    # puts page.html
 
     expect(page).to have_content('Signed out successfully.')
-    # expect(current_path).to eq(root_path)
   end
 
   # Add more scenarios for authentication features
