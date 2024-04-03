@@ -1,18 +1,15 @@
 require 'rails_helper'
 
 RSpec.feature 'UserAuths', type: :feature do
-  let(:user) { create(:user) }
+  # let(:user) { create(:user) }
 
   scenario 'user signs up' do
     visit new_user_registration_path
-
-    save_and_open_page # rubocop:disable Lint/Debugger
 
     fill_in 'user[email]', with: 'test@example.com'
     fill_in 'user[password]', with: 'password'
     fill_in 'user[password_confirmation]', with: 'password'
     click_button 'Sign up'
-    s
 
     expect(page).to have_content('Welcome! You have signed up successfully.')
     expect(User.count).to eq(1)
