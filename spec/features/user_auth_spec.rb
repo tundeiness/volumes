@@ -46,4 +46,40 @@ RSpec.feature 'UserAuths', type: :feature do
   end
 
   # Add more scenarios for authentication features
+
+  scenario 'user resets password' do
+    user = create(:user)
+
+    visit new_user_session_path
+    click_link 'Forgot your password?'
+
+    fill_in 'Email', with: user.email
+    click_button 'Send me reset password instructions'
+
+    expect(page).to have_content('You will receive an email with instructions on how to reset your password in a few minutes.')
+
+    # Assuming you have a way to access the reset password link from the sent email
+    reset_password_link = extract_reset_password_link_from_email(user.email)
+    visit reset_password_link
+
+    fill_in 'New password', with: 'new_password'
+    fill_in 'Confirm new password', with: 'new_password'
+    click_button 'Change my password'
+
+    expect(page).to have_content('Your password has been changed successfully.')
+  end
+
+  scenario 'user deletes account' do
+    user = create(:user)
+
+    sign_in(user)
+    visit edit_user_registration_path
+
+    accept_confirm('Are you sure you want to delete your account?') do
+      click_button 'Cancel my account'
+    end
+
+    expect(page).to have_content('Your account has been successfully cancelled.')
+    expect(User.count).to eq(0)
+  end
 end
