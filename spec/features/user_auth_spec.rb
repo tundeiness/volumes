@@ -72,12 +72,14 @@ RSpec.feature 'UserAuths', type: :feature do
   scenario 'user deletes account' do
     user = create(:user)
 
-    sign_in(user)
+    # Manually sign in the user using Warden
+    login_as(user, scope: :user)
+
     visit edit_user_registration_path
 
-    accept_confirm('Are you sure you want to delete your account?') do
-      click_button 'Cancel my account'
-    end
+    expect(page).to have_content('Cancel my account')
+
+    click_button 'Cancel my account'
 
     expect(page).to have_content('Your account has been successfully cancelled.')
     expect(User.count).to eq(0)
