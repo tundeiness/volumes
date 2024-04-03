@@ -1,5 +1,9 @@
 require 'rails_helper'
 
+RSpec.configure do |config|
+  config.include EmailHelper, type: :feature
+end
+
 RSpec.feature 'UserAuths', type: :feature do
   # let(:user) { create(:user) }
 
@@ -46,27 +50,26 @@ RSpec.feature 'UserAuths', type: :feature do
   end
 
   # Add more scenarios for authentication features
-
   scenario 'user resets password' do
     user = create(:user)
 
-    visit new_user_session_path
-    click_link 'Forgot your password?'
-
+    # Trigger password reset
+    visit new_user_password_path
     fill_in 'Email', with: user.email
     click_button 'Send me reset password instructions'
 
-    expect(page).to have_content('You will receive an email with instructions on how to reset your password in a few minutes.')
+    # Extract reset password link from email
+    reset_password_link = extract_reset_password_link_from_email(ActionMailer::Base.deliveries.last)
 
-    # Assuming you have a way to access the reset password link from the sent email
-    reset_password_link = extract_reset_password_link_from_email(user.email)
+    # Visit reset password link
     visit reset_password_link
 
+    # Enter new password
     fill_in 'New password', with: 'new_password'
     fill_in 'Confirm new password', with: 'new_password'
     click_button 'Change my password'
 
-    expect(page).to have_content('Your password has been changed successfully.')
+    expect(page).to have_content('Your password has been changed successfully. You are now signed in.')
   end
 
   scenario 'user deletes account' do
