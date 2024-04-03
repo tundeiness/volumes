@@ -16,7 +16,16 @@ RSpec.feature 'UserAuths', type: :feature do
   end
 
   scenario 'user signs in' do
-    # Add tests for user sign-in
+    # create user using FactortBot
+    user = create(:user)
+
+    visit new_user_session_path
+
+    fill_in 'user[email]', with: user.email
+    fill_in 'user[password]', with: user.password
+    click_button 'Log in'
+
+    expect(page).to have_content('Signed in successfully.')
   end
 
   scenario 'user signs out' do
