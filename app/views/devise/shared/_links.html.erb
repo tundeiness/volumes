@@ -24,9 +24,3 @@
   <% end %>
 <% end %>
 
-
-<% if user_signed_in? %>
- <%= button_to("Log Out", LOGOUT_PATH, method: :delete) %>
-<% else %>
- <%= link_to 'Log in', new_user_session_path %>
-<% end %>
