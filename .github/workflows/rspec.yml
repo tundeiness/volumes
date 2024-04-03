@@ -4,7 +4,21 @@ on: [push]
 
 jobs:
   rspec:
+    name: Run RSpec
     runs-on: ubuntu-22.04
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: <%= Rails.application.credentials.dig(:test, :postgres, :username) %>
+          POSTGRES_PASSWORD: <%= Rails.application.credentials.dig(:test, :postgres, :password) %>
+          POSTGRES_DB: <%= Rails.application.credentials.dig(:test, :postgres, :database) %>
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -15,10 +29,17 @@ jobs:
           ruby-version: 3.1.0
 
       - name: Install dependencies
-        run: bundle install
+        run: bundle install --jobs 4 --retry 3
 
-      - name: Update package lists
-        run: sudo apt-get update
+      - name: Set up database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rake db:create RAILS_ENV=test
+          bundle exec rake db:schema:load RAILS_ENV=test
+        env:
+          POSTGRES_USER: <%= Rails.application.credentials.dig(:test, :postgres, :username) %>
+          POSTGRES_PASSWORD: <%= Rails.application.credentials.dig(:test, :postgres, :password) %>
+          POSTGRES_DB: <%= Rails.application.credentials.dig(:test, :postgres, :database) %>
 
       - name: Run RSpec tests
         run: bundle exec rspec
