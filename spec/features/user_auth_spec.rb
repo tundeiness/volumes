@@ -5,7 +5,7 @@ RSpec.configure do |config|
 end
 
 RSpec.feature 'UserAuths', type: :feature do
-  # let(:user) { create(:user) }
+
 
   scenario 'user signs up' do
     visit new_user_registration_path
@@ -86,5 +86,25 @@ RSpec.feature 'UserAuths', type: :feature do
 
     expect(page).to have_content('Your account has been successfully cancelled.')
     expect(User.count).to eq(0)
+  end
+
+
+  scenario 'user changes email' do
+    user = create(:user)
+    new_email = 'new_email@example.com'
+
+    login_as(user, scope: :user)
+    visit edit_user_registration_path
+
+    fill_in 'Email', with: new_email
+    fill_in 'Current password', with: user.password
+    click_button 'Update'
+
+    # Ensure that the user's email is updated with the unconfirmed email
+    user.reload
+    expect(user.email).to eq(new_email)
+
+    # Adjust the expectation to match the actual content
+    expect(page).to have_content('Your account has been updated successfully.')
   end
 end
