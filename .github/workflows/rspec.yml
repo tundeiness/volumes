@@ -33,9 +33,9 @@ jobs:
 
       - name: Set up database
         run: |
-          cp config/database.yml.ci config/database.yml
           bundle exec rake db:create RAILS_ENV=test
           bundle exec rake db:schema:load RAILS_ENV=test
+
         env:
           POSTGRES_USER: rails_github_actions
           POSTGRES_DB: rails_github_actions_test
