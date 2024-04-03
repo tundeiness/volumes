@@ -348,6 +348,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   view_component (~> 3.11)
+  warden (~> 1.2)
   web-console
 
 RUBY VERSION

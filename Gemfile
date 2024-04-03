@@ -74,14 +74,16 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'warden', '~> 1.2'
 end
 
 gem 'hotwire-rails', '~> 0.1.3'
 
 gem 'tailwindcss-rails', '~> 2.3'
 
-gem "view_component", "~> 3.11"
+gem 'view_component', '~> 3.11'
 
-gem "devise", "~> 4.9"
+gem 'devise', '~> 4.9'
 
-gem "launchy", "~> 3.0"
+gem 'launchy', '~> 3.0'
+
