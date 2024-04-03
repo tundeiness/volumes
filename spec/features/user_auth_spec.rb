@@ -6,7 +6,6 @@ end
 
 RSpec.feature 'UserAuths', type: :feature do
 
-
   scenario 'user signs up' do
     visit new_user_registration_path
 
