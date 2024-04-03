@@ -9,7 +9,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:14.5
         env:
           POSTGRES_USER: <%= Rails.application.credentials.dig(:test, :postgres, :username) %>
           POSTGRES_PASSWORD: <%= Rails.application.credentials.dig(:test, :postgres, :password) %>
