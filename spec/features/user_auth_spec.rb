@@ -43,7 +43,7 @@ RSpec.feature 'UserAuths', type: :feature do
 
     expect(page).to have_content('Signed in successfully.')
 
-    click_link('Sign out')
+    click_button('Sign Out')
 
     expect(page).to have_content('Signed out successfully.')
   end
