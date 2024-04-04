@@ -25,7 +25,25 @@ RSpec.feature 'UserAuths', type: :feature do
     fill_in 'Password confirmation', with: 'password'
     click_button 'Sign up'
     expect(page).to have_content 'Welcome! You have signed up successfully.'
+    p User.last.role
     expect(User.last.role).to eq 'client'
+    expect(User.count).to eq(1)
+  end
+
+  scenario 'admin changes user role from client to therapist' do
+    admin = User.create(email: 'admin@example.com', password: 'password', role: 'admin')
+    visit new_user_session_path
+    fill_in 'Email', with: admin.email
+    fill_in 'Password', with: 'password'
+    click_button 'Log in'
+    expect(page).to have_content 'Signed in successfully'
+
+    user = User.create(email: 'user@example.com', password: 'password', role: 'client')
+    visit edit_user_path(user)
+    select 'therapist', from: 'user[role]'
+    click_button 'Update User'
+    expect(page).to have_content 'User was successfully updated.'
+    expect(user.reload.role).to eq 'therapist'
   end
 
   scenario 'user signs in' do
