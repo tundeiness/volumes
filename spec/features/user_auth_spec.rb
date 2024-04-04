@@ -18,6 +18,16 @@ RSpec.feature 'UserAuths', type: :feature do
     expect(User.count).to eq(1)
   end
 
+  scenario 'user signs up as a client' do
+    visit new_user_registration_path
+    fill_in 'Email', with: 'client@example.com'
+    fill_in 'Password', with: 'password'
+    fill_in 'Password confirmation', with: 'password'
+    click_button 'Sign up'
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    expect(User.last.role).to eq 'client'
+  end
+
   scenario 'user signs in' do
     # create user using FactortBot
     user = create(:user)
