@@ -5,6 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  enum role: { admin: 'admin', therapist: 'therapist', client: 'client' }, _suffix: true
   attribute :role, :string, default: 'client'
 
   ROLES.each do |name|
