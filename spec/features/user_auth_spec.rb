@@ -86,7 +86,7 @@ RSpec.feature 'UserAuths', type: :feature do
   end
 
   scenario 'user signs out' do
-    # create user using FactortBot
+
     user = create(:user)
 
     visit new_user_session_path
