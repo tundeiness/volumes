@@ -54,7 +54,7 @@ RSpec.feature 'UserAuths', type: :feature do
 
   scenario 'admin cannot change their own role' do
     admin = create(:user, :admin)
-    user = create(:user)
+
     # Sign in as admin
     login_as(admin, scope: :user)
     visit edit_user_path(admin)
