@@ -87,20 +87,23 @@ RSpec.feature 'UserAuths', type: :feature do
 
   scenario 'user signs out' do
 
-    user = create(:user)
+    user = create(:user, :client)
 
-    visit new_user_session_path
+    login_as(user)
+    visit root_path
 
-    fill_in 'user[email]', with: user.email
-    fill_in 'user[password]', with: user.password
-    click_button 'Log in'
-
-    expect(page).to have_content('Signed in successfully.')
+    expect(page).to have_content(user.email)
 
     click_button('Sign Out')
-
-    expect(page).to have_content('Signed out successfully.')
+    # save_and_open_page
+    expect(page).to have_content('You need to sign in or sign up before continuing.')
+    expect(current_path).to eq(new_user_session_path)
+    expect(page).to have_link('Sign up')
+    expect(page).to have_button('Log in')
+    expect(page).to_not have_link('Sign Out')
   end
+
+
 
   # Add more scenarios for authentication features
   scenario 'user resets password' do
@@ -137,7 +140,8 @@ RSpec.feature 'UserAuths', type: :feature do
 
     click_button 'Cancel my account'
 
-    expect(page).to have_content('Your account has been successfully cancelled.')
+    expect(page).to have_content('You need to sign in or sign up before continuing.')
+    expect(current_path).to eq(new_user_session_path)
     expect(User.count).to eq(0)
   end
 
