@@ -12,5 +12,6 @@ class Ability
       # can :create, Appointment
       # can :read, Appointment, client_id: user.id
     end
+    can :manage, User, id: user.id if user.admin?
   end
 end
