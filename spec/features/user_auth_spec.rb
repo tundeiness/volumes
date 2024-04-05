@@ -67,10 +67,10 @@ RSpec.feature 'UserAuths', type: :feature do
   scenario 'regular user cannot access role change page' do
     admin = create(:user, :admin)
     regular_user = create(:user)
+
     login_as(regular_user, scope: :user)
-    expect do
-      visit edit_user_path(admin)
-    end.to raise_error(CanCan::AccessDenied)
+    visit edit_user_path(admin)
+    expect(page).to have_content('You are not authorized to access this page.')
   end
 
   scenario 'user signs in' do
