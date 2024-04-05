@@ -30,24 +30,50 @@ RSpec.feature 'UserAuths', type: :feature do
     expect(User.count).to eq(1)
   end
 
-  # scenario 'admin changes another user role from client to therapist' do
-  #   admin = create(:user, :admin)
-  #   user = create(:user, :client, email: 'user@example.com')
+  scenario 'admin changes user role from client to therapist' do
+    admin = create(:user, :admin)
+    user = create(:user)
 
-  #   login_as(admin, scope: :admin)
-  #   puts "Visiting edit page for user #{user.id}"
-  #   visit edit_user_path(user)
-   
-  #   select 'therapist', from: 'user_role'
+    # Sign in as admin
+    login_as(admin, scope: :user)
 
-  #   click_button 'Update'
+    # Visit the page where admin can change user roles
+    visit edit_user_path(user)
 
-  #   expect(page).to have_content 'User role updated successfully.'
-  #   expect(user.reload.role).to eq 'therapist'
-  # end
+    # Verify that admin is on the correct page
+    expect(page).to have_content('Change User Role')
+
+    # Admin changes the user's role to therapist
+    select 'therapist', from: 'user[role]'
+    click_button 'Update'
+
+    # Verify that the user's role has been updated successfully
+    expect(page).to have_content('User role updated successfully.')
+    expect(user.reload.role).to eq('therapist')
+  end
+
+  scenario 'admin cannot change their own role' do
+    admin = create(:user, :admin)
+    user = create(:user)
+    # Sign in as admin
+    login_as(admin, scope: :user)
+    visit edit_user_path(admin)
+
+    expect(page).to have_content('Admin cannot change their own role.')
+    expect(page).not_to have_selector('form[action="/users/update"]')
+  end
+
+
+  scenario 'regular user cannot access role change page' do
+    admin = create(:user, :admin)
+    regular_user = create(:user)
+    login_as(regular_user, scope: :user)
+    expect do
+      visit edit_user_path(admin)
+    end.to raise_error(CanCan::AccessDenied)
+  end
 
   scenario 'user signs in' do
-    # create user using FactortBot
     user = create(:user)
     # save_and_open_page
     visit new_user_session_path
@@ -114,7 +140,6 @@ RSpec.feature 'UserAuths', type: :feature do
     expect(page).to have_content('Your account has been successfully cancelled.')
     expect(User.count).to eq(0)
   end
-
 
   scenario 'user changes email' do
     user = create(:user)
