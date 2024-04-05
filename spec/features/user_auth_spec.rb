@@ -103,8 +103,6 @@ RSpec.feature 'UserAuths', type: :feature do
     expect(page).to_not have_link('Sign Out')
   end
 
-
-
   # Add more scenarios for authentication features
   scenario 'user resets password' do
     user = create(:user)
