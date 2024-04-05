@@ -5,7 +5,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :username, presence: true, uniqueness: true
+  def client?
+    role == 'client'
+  end
+
+  validates :username, presence: true, uniqueness: true, if: :client?
   validates :email, presence: true, uniqueness: true
 
   enum role: { admin: 'admin', therapist: 'therapist', client: 'client' }, _suffix: true
