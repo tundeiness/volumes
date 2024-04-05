@@ -152,11 +152,9 @@ RSpec.feature 'UserAuths', type: :feature do
     fill_in 'Current password', with: user.password
     click_button 'Update'
 
-    # Ensure that the user's email is updated with the unconfirmed email
     user.reload
     expect(user.email).to eq(new_email)
 
-    # Adjust the expectation to match the actual content
     expect(page).to have_content('Your account has been updated successfully.')
   end
 end
