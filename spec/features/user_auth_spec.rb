@@ -75,7 +75,7 @@ RSpec.feature 'UserAuths', type: :feature do
 
   scenario 'user signs in' do
     user = create(:user)
-    # save_and_open_page
+
     visit new_user_session_path
 
     fill_in 'user[email]', with: user.email
