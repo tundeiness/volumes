@@ -1,0 +1,8 @@
+<h1>Change User Role</h1>
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.label :role %>
+    <%= f.select :role, options_for_select(User.roles.keys) %>
+  </div>
+  <%= f.submit 'Update Role' %>
+<% end %>
