@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'users/update'
   devise_for :users
   # devise_for :users, controllers: { registrations: 'user/registrations' }
   root 'home#index'
@@ -10,4 +11,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  resources :users, only: [:index, :edit, :update]
 end
