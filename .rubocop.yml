@@ -26,7 +26,11 @@ Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
   # IgnoredMethods: ['describe']
-  AllowedMethods: ['describe']
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'test/**/*.rb'
+  AllowedMethods: ['describe', 'scenario', 'feature']
   Max: 50
 
 Style/Documentation:
