@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
 
   enum role: { admin: 'admin', therapist: 'therapist', client: 'client' }, _suffix: true
   # enum role: [ :admin, :therapist, :client ], validate: true
