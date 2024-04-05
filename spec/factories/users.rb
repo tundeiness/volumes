@@ -4,7 +4,7 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     contact_number { Faker::PhoneNumber.phone_number }
     address { Faker::Address.full_address }
-    username { Faker::Movies::LordOfTheRings }
+    username { Faker::Internet.username }
     email { Faker::Internet.email }
     password { 'password' }
     password_confirmation { 'password' }
