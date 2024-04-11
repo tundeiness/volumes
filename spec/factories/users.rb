@@ -4,7 +4,8 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     contact_number { Faker::PhoneNumber.phone_number }
     address { Faker::Address.full_address }
-    username { Faker::Internet.username }
+    # username { Faker::Internet.username }
+    sequence(:username) { |n| "#{Faker::Internet.username}#{n}" }
     email { Faker::Internet.email }
     password { 'password' }
     password_confirmation { 'password' }
@@ -20,6 +21,7 @@ FactoryBot.define do
 
     trait :client do
       role { :client }
+      # username { Faker::Internet.username }
     end
   end
 end

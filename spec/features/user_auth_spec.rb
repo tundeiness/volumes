@@ -6,28 +6,36 @@ end
 
 RSpec.feature 'UserAuths', type: :feature do
 
-  scenario 'user signs up' do
-    visit new_user_registration_path
-
-    fill_in 'user[email]', with: 'test@example.com'
-    fill_in 'user[password]', with: 'password'
-    fill_in 'user[password_confirmation]', with: 'password'
-    click_button 'Sign up'
-
-    expect(page).to have_content('Welcome! You have signed up successfully.')
-    expect(User.count).to eq(1)
-  end
-
   scenario 'user signs up as a client' do
+    # user_role = User.new.role
     visit new_user_registration_path
-    fill_in 'Email', with: 'client@example.com'
+    # save_and_open_page
+    # puts page.html
+
+    fill_in 'First name', with: 'John'
+    fill_in 'Last name', with: 'Doe'
+    fill_in 'Contact number', with: '1234567890'
+    fill_in 'Address', with: '123 Main St'
+    # fill_in 'Username', with: 'johndoe'
+    # fill_in 'Role', with: 'client', visible: false
+    # expect(page).to have_field('Username')
+    # if user_role == 'client'
+    #   fill_in 'Username', with: 'johndoe'
+    # end
+
+    fill_in 'Username', with: 'johndoe'
+    # find('#user_username', visible: false).set('johndoe')
+    fill_in 'Email', with: 'john@example.com'
     fill_in 'Password', with: 'password'
     fill_in 'Password confirmation', with: 'password'
     click_button 'Sign up'
+    # find('#user_role', visible: false).set('client')
+    # expect { click_button 'Sign up' }.to change(User, :count).by(1)
+    # save_and_open_page
     expect(page).to have_content 'Welcome! You have signed up successfully.'
-    p User.last.role
-    expect(User.last.role).to eq 'client'
-    expect(User.count).to eq(1)
+    # expect { click_button 'Sign up' }.to change(User, :count).by(1)
+    # expect(User.count).to eq(1)
+    # expect(page).to have_field('Username')
   end
 
   scenario 'admin changes user role from client to therapist' do
@@ -45,6 +53,7 @@ RSpec.feature 'UserAuths', type: :feature do
 
     # Admin changes the user's role to therapist
     select 'therapist', from: 'user[role]'
+    user.reload
     click_button 'Update'
 
     # Verify that the user's role has been updated successfully

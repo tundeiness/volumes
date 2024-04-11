@@ -74,6 +74,7 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 6.2'
   gem 'warden', '~> 1.2'
 end
 
@@ -86,4 +87,3 @@ gem 'view_component', '~> 3.11'
 gem 'devise', '~> 4.9'
 
 gem 'launchy', '~> 3.0'
-
